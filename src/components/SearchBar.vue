@@ -27,7 +27,7 @@ div {
   position: sticky;
   top: 0;
   width: 100%;
-  background: rgb(48, 48, 48);
+  background-color: rgb(48, 48, 48);
   padding: 1em;
 }
 
@@ -43,7 +43,7 @@ input {
 button {
   padding: 0.4em 1em;
   border-radius: 0.4em;
-  background: rgb(233, 132, 24);
+  background-color: rgb(233, 132, 24);
   color: rgb(255, 255, 255);
   border: none;
   font-weight: bold;

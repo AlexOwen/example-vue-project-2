@@ -22,8 +22,13 @@ export default {
 
 <style lang="scss" scoped>
 div {
-  border: 1px solid #ccc;
   cursor: pointer;
   padding: 1em;
+  margin: 0 1em;
+  border-radius: 1em;
+
+  &:hover {
+    background-color: rgba(233, 132, 24, 0.4);
+  }
 }
 </style>

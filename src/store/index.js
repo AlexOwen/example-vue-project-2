@@ -86,7 +86,7 @@ export const mutations = {
    * @param { object } payload A movie.
    */
   setFocusedMovie: (state, movie) => {
-    if (movie.error === true) {
+    if (movie.error === true || Object.keys(movie).length === 0) {
       state.focusedMovie = null;
     } else {
       state.focusedMovie = movie;

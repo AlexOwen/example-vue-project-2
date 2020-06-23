@@ -6,7 +6,8 @@
         <Result :result="result" />
       </li>
     </ul>
-    <div>
+    <div class="pagination" v-if="$store.state.searchTerm !== null &&
+      $store.state.searchResults.length > 0">
       <button
         class="previous"
         v-if="$store.state.currentPage > 1"
@@ -46,9 +47,29 @@ ul {
   overflow-x: auto;
   border-radius: 1em;
   width: 100%;
+  align-items: center;
 
   li {
     width: 400px;
   }
+}
+
+.pagination {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgb(48, 48, 48);
+  padding: 1em;
+}
+
+button {
+  padding: 0.4em 1em;
+  border-radius: 0.4em;
+  background: rgb(233, 132, 24);
+  color: rgb(255, 255, 255);
+  border: none;
+  font-weight: bold;
+  margin: 0.5em;
 }
 </style>
