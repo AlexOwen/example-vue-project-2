@@ -6,6 +6,16 @@
         <Result :result="result" />
       </li>
     </ul>
+    <div>
+      <button
+        class="previous"
+        v-if="$store.state.currentPage > 1"
+        v-on:click="$store.dispatch('previousPage')">&lt;</button>
+      <button
+        class="next"
+        v-if="$store.state.currentPage < $store.state.totalPages"
+        v-on:click="$store.dispatch('nextPage')">&gt;</button>
+    </div>
     <p class="no-results" v-if="$store.state.searchTerm !== null &&
       $store.state.searchResults.length === 0">No results found</p>
   </section>

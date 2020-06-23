@@ -63,5 +63,56 @@ describe('Vuex', () => {
         ]);
       });
     });
+
+    describe('setPage', () => {
+      it('sets the page', () => {
+        const state = {
+          currentPage: 1,
+          totalPages: 10,
+        };
+
+        const { setPage } = mutations;
+        setPage(state, 2);
+
+        expect(state.currentPage).to.equal(2);
+      });
+
+      it('sets the page to the maximum if the requested page is greater than the maximum', () => {
+        const state = {
+          currentPage: 1,
+          totalPages: 10,
+        };
+
+        const { setPage } = mutations;
+        setPage(state, 11);
+
+        expect(state.currentPage).to.equal(10);
+      });
+
+      it('sets the page to 1 if the requested page is less than 1', () => {
+        const state = {
+          currentPage: 1,
+          totalPages: 10,
+        };
+
+        const { setPage } = mutations;
+        setPage(state, 0);
+
+        expect(state.currentPage).to.equal(1);
+      });
+    });
+
+    describe('setTotalPages', () => {
+      it('sets the total pages', () => {
+        const state = {
+          totalPages: 10,
+        };
+
+        const { setTotalPages } = mutations;
+        setTotalPages(state, 5);
+
+        expect(state.totalPages).to.equal(5);
+      });
+    });
   });
 });
