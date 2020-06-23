@@ -1,7 +1,7 @@
 <template>
-  <section>
+  <div>
     <ul v-if="$store.state.searchTerm !== null && $store.state.searchResults.length > 0">
-      <li class="result" v-for="result in $store.state.searchResults"
+      <li v-for="result in $store.state.searchResults"
             :key="result.imdbID" >
         <Result :result="result" />
       </li>
@@ -18,7 +18,7 @@
     </div>
     <p class="no-results" v-if="$store.state.searchTerm !== null &&
       $store.state.searchResults.length === 0">No results found</p>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -36,3 +36,19 @@ export default {
 };
 
 </script>
+
+<style lang="scss" scoped>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  overflow-x: auto;
+  border-radius: 1em;
+  width: 100%;
+
+  li {
+    width: 400px;
+  }
+}
+</style>

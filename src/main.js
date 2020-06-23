@@ -5,6 +5,7 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
+// TODO: implement router for navigation and bookmarking
 new Vue({
   router,
   store,

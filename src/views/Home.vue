@@ -1,8 +1,14 @@
 <template>
   <div class="home">
-    <SearchBar />
-    <Results />
-    <MovieDetail v-if="$store.state.focusedMovie !== null" :movie="$store.state.focusedMovie" />
+    <section class="search">
+      <SearchBar />
+    </section>
+    <section class="results">
+      <Results />
+    </section>
+    <section class="detail">
+      <MovieDetail v-if="$store.state.focusedMovie !== null" :movie="$store.state.focusedMovie" />
+    </section>
   </div>
 </template>
 
@@ -20,3 +26,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+  .results {
+    max-width: 80%;
+    margin: auto;
+  }
+</style>
