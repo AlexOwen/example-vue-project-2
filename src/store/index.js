@@ -156,7 +156,7 @@ export const actions = {
           runtime: responseData.Runtime,
           plot: responseData.Plot,
         };
-        if (responseData.Poster) data.poster = responseData.Poster;
+        if (responseData.Poster && responseData.Poster !== 'N/A') data.poster = responseData.Poster;
       }
     } catch (err) {
       console.error('Failed to retrieve results: ', err.message);
