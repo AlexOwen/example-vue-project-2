@@ -114,5 +114,33 @@ describe('Vuex', () => {
         expect(state.totalPages).to.equal(5);
       });
     });
+
+    describe('setFocusedMovie', () => {
+      it('sets the correct value', () => {
+        const state = {
+          focusedMovie: null,
+        };
+
+        const testMovie = {
+          thisIs: 'a test',
+        };
+
+        const { setFocusedMovie } = mutations;
+        setFocusedMovie(state, testMovie);
+
+        expect(state.focusedMovie).to.deep.equal(testMovie);
+      });
+
+      it('sets null with an error result', () => {
+        const state = {
+          focusedMovie: {},
+        };
+
+        const { setFocusedMovie } = mutations;
+        setFocusedMovie(state, { error: true });
+
+        expect(state.focusedMovie).to.equal(null);
+      });
+    });
   });
 });

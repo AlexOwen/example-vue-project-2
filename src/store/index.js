@@ -78,6 +78,20 @@ export const mutations = {
       state.totalPages = 1;
     }
   },
+
+  /**
+   * Set the focusedMovie in the state.
+   *
+   * @param { object } state The current Vuex state.
+   * @param { object } payload A movie.
+   */
+  setFocusedMovie: (state, movie) => {
+    if (movie.error === true) {
+      state.focusedMovie = null;
+    } else {
+      state.focusedMovie = movie;
+    }
+  },
 };
 
 /**
@@ -87,28 +101,28 @@ export const actions = {
   /**
    * Get the search results from the OMDB API.
    *
-   * TODO: move API key to external file (not in git)
-   * TODO: break the search and fetch results functions out
-   * TODO: cache pages
+   * TODO: move API key to external file (not in git).
+   * TODO: break the search and fetch results functions out.
+   * TODO: cache pages.
    */
-  search: async (context, searchTerm) => {
+  search: async ({ state, commit }, searchTerm) => {
     let data = [];
 
-    context.commit('setSearchTerm', searchTerm);
+    commit('setSearchTerm', searchTerm);
 
     try {
-      const responseData = await (await fetch(`http://www.omdbapi.com/?apikey=f667c202&type=movie&s=${searchTerm}&page=${context.state.currentPage}`)).json();
+      const responseData = await (await fetch(`http://www.omdbapi.com/?apikey=f667c202&type=movie&s=${searchTerm}&page=${state.currentPage}`)).json();
       data = responseData.Search && Array.isArray(responseData.Search) ? responseData.Search : [];
-      context.commit('setTotalPages', responseData.totalResults ? Math.ceil(responseData.totalResults / 10) : 1);
+      commit('setTotalPages', responseData.totalResults ? Math.ceil(responseData.totalResults / 10) : 1);
     } catch (err) {
       console.error('Failed to retrieve results: ', err.message);
     }
 
-    context.commit('setSearchResults', data);
+    commit('setSearchResults', data);
   },
 
   /**
-   * Increment the page number and fetch new results
+   * Increment the page number and fetch new results.
    */
   nextPage: async ({ commit, dispatch, state }) => {
     commit('setPage', state.currentPage + 1);
@@ -116,11 +130,39 @@ export const actions = {
   },
 
   /**
-   * Deccrement the page number and fetch new results
+   * Decrement the page number and fetch new results.
    */
   previousPage: async ({ commit, dispatch, state }) => {
     commit('setPage', state.currentPage - 1);
     await dispatch('search', state.searchTerm);
+  },
+
+  /**
+   * Get more details about a movie.
+   */
+  getMovieDetails: async ({ commit }, imdbID) => {
+    let data = {
+      error: true,
+    };
+
+    try {
+      const responseData = await (await fetch(`http://www.omdbapi.com/?apikey=f667c202&type=movie&i=${imdbID}`)).json();
+
+      if (!responseData.Error) {
+        data = {
+          imdbID: responseData.imdbID,
+          title: responseData.Title,
+          year: responseData.Year,
+          runtime: responseData.Runtime,
+          plot: responseData.Plot,
+        };
+        if (responseData.Poster) data.poster = responseData.Poster;
+      }
+    } catch (err) {
+      console.error('Failed to retrieve results: ', err.message);
+    }
+
+    commit('setFocusedMovie', data);
   },
 };
 
@@ -133,6 +175,7 @@ export default new Vuex.Store({
     searchResults: [],
     currentPage: 1,
     totalPages: 1,
+    focusedMovie: null,
   },
   mutations,
   actions,

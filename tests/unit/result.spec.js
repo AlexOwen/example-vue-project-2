@@ -12,6 +12,7 @@ describe('Result.vue', () => {
       title: 'Test Title',
       year: '1988',
       poster: 'http://localhost/test.jpg',
+      imdbID: 'testID',
     },
   };
 
@@ -20,7 +21,6 @@ describe('Result.vue', () => {
       propsData: testProps,
     });
 
-    console.log(wrapper.find('.title').text());
     expect(wrapper.find('.title').text()).to.equal(testProps.result.title);
   });
 
@@ -51,6 +51,26 @@ describe('Result.vue', () => {
     const wrapper = shallowMount(Result, {
       propsData: noPosterProps,
     });
+
     expect(wrapper.find('.poster').exists()).to.equal(false);
+  });
+
+  it('gets more details about a movie when clicked', async () => {
+    await new Promise((resolve) => {
+      const wrapper = shallowMount(Result, {
+        propsData: testProps,
+        mocks: {
+          $store: {
+            dispatch(name, data) {
+              expect(name).to.equal('getMovieDetails');
+              expect(data).to.equal('testID');
+              resolve();
+            },
+          },
+        },
+      });
+
+      wrapper.find('div.result').trigger('click');
+    });
   });
 });
